@@ -19,7 +19,6 @@ class UserClass {
             }
         ).then(
             response => {
-                console.log(response.data.login);
                 this._status = response.data.login
             }
         ).catch(

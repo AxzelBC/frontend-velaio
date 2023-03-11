@@ -6,6 +6,7 @@ import New from './New'
 function News() {
 
     const [myNews, setMyNews] = useState([])
+    let i = 0;
 
     const dataNews = async () => {
         await news_api().then(
@@ -15,15 +16,18 @@ function News() {
 
     useEffect(() => {
         dataNews()
-    }, [])
+    }, [myNews])
 
     return (
         <Container sx={{ display: 'flex' }} className='row mt-4'>
             {
+                console.log(i)
+            }
+            {
                 myNews.map((item) => (
                     <div className='col-4 mb-3'>
                         <New
-                            key={item.author}
+                            key={item.publishedAt}
                             titulo={item.title}
                             autor={item.author}
                             image={item.urlToImage}
@@ -31,6 +35,9 @@ function News() {
                         />
                     </div>
                 ))
+            }
+            {
+                console.log(i)
             }
         </Container>
     )

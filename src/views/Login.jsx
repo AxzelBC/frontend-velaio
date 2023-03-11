@@ -4,13 +4,14 @@ import {
 } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import useLogin from '../hooks/useLogin';
 import Userclass from '../class/User_class'
 import { useNavigate } from 'react-router-dom';
 
 const validationSchema = yup.object({
     username: yup
-        .string('Enter your email')
-        .required('Email is required'),
+        .string('Enter your username')
+        .required('Username is required'),
     password: yup
         .string('Enter your password')
         .min(8, 'Password should be of minimum 8 characters length')
@@ -18,6 +19,8 @@ const validationSchema = yup.object({
 });
 
 function Login() {
+
+    const { login, setLogin } = useLogin();
 
     const navigate = useNavigate();
 
@@ -30,8 +33,11 @@ function Login() {
         onSubmit: async (values) => {
             const user = new Userclass(values.username, values.password);
             await user.authUser()
-            if (user._status == true) {
-                navigate("/home")
+            if (user._status) {
+                setLogin({ username: user._username, status: user._status });
+                navigate("/home");
+            } else {
+                alert('Error en la autentificación')
             }
         },
     });
